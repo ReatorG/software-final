@@ -1,12 +1,7 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Dict, Optional
-
-
-@dataclass
-class Teacher:
-    id: str
-    name: str
-    created_at: str | None = None  # opcional, depende de tu proyecto
+from datetime import datetime
+from app.domain.Teacher import Teacher
 
 
 class TeacherRepository:
@@ -23,11 +18,12 @@ class TeacherRepository:
     # -------------------------------
     def create_teacher(self, teacher: Teacher) -> Teacher:
         """
-        Crea un docente si no existe. 
+        Crea un docente si no existe.
         """
         if teacher.id in self.teachers:
             return self.teachers[teacher.id]
 
+        # created_at ya viene con default_factory -> datetime.utcnow
         self.teachers[teacher.id] = teacher
         return teacher
 
@@ -59,6 +55,7 @@ class TeacherRepository:
         if teacher_id not in self.teachers:
             return None
 
+        # Reemplaza completamente la instancia
         self.teachers[teacher_id] = updated_teacher
         return updated_teacher
 

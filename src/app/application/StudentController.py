@@ -1,21 +1,40 @@
 from fastapi import APIRouter, Depends
-from app.domain.Student import Evaluation
 from app.domain.StudentService import StudentService
+from app.domain.Student import Student
 
 router = APIRouter(prefix="/api/students", tags=["Students"])
 
-@router.post("/{teacher_id}/{student_id}/evaluations")
-def add_evaluation(teacher_id: str, student_id: str, eval: Evaluation, service: StudentService = Depends()):
-    return service.add_evaluation(teacher_id, student_id, eval)
+# ===============================
+# LISTAR ESTUDIANTES DE UN DOCENTE
+# ===============================
+@router.get("/{teacher_id}")
+def list_students(teacher_id: str, service: StudentService = Depends()):
+    return service.list_students(teacher_id)
 
-@router.post("/{teacher_id}/{student_id}/attendance")
-def set_attendance(teacher_id: str, student_id: str, attendance_ok: bool, service: StudentService = Depends()):
-    return service.set_attendance(teacher_id, student_id, attendance_ok)
+# ===============================
+# OBTENER ESTUDIANTE
+# ===============================
+@router.get("/{teacher_id}/{student_id}")
+def get_student(teacher_id: str, student_id: str, service: StudentService = Depends()):
+    return service.get_student(teacher_id, student_id)
 
-@router.post("/{teacher_id}/{student_id}/extra")
-def give_extra(teacher_id: str, student_id: str, year: int, points: float, service: StudentService = Depends()):
-    return service.give_extra_points(teacher_id, student_id, year, points)
+# ===============================
+# CREAR ESTUDIANTE
+# ===============================
+@router.post("/{teacher_id}")
+def create_student(teacher_id: str, student: Student, service: StudentService = Depends()):
+    return service.create_student(teacher_id, student)
 
-@router.get("/{teacher_id}/{student_id}/final-grade")
-def final_grade(teacher_id: str, student_id: str, service: StudentService = Depends()):
-    return service.calculate_final_grade(teacher_id, student_id)
+# ===============================
+# ACTUALIZAR ESTUDIANTE
+# ===============================
+@router.put("/{teacher_id}/{student_id}")
+def update_student(teacher_id: str, student_id: str, student: Student, service: StudentService = Depends()):
+    return service.update_student(teacher_id, student_id, student)
+
+# ===============================
+# ELIMINAR ESTUDIANTE
+# ===============================
+@router.delete("/{teacher_id}/{student_id}")
+def delete_student(teacher_id: str, student_id: str, service: StudentService = Depends()):
+    return service.delete_student(teacher_id, student_id)
