@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment
+venv/
+.env/
+
+# Environment files
+*.env
+
+# IDE
+.vscode/
+.idea/
+
+# Byte-compiled / cache
+.cache/
+*.log
+
+# Uvicorn reload artifacts
+*.pid
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Pytest / coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Build
+dist/
+build/
